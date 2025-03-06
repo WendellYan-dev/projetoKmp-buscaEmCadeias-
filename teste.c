@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 typedef struct {
     char nome[9];
@@ -79,13 +80,15 @@ int main(int argc, char *argv[]) {
         fscanf(arquivo,"%s %d\n",doencas[i].nome,&quantidadeGenes);
         // printf("%s %d\n",doencas[i].nome,quantidadeGenes);
 
+        int soma;
         for(int j = 0; j < quantidadeGenes; j++){
             fscanf(arquivo,"%s",genes);
             // printf("%s\n",genes);
-            int posicao = algoritmoKMP(cadeia,tamanhoCadeia,genes,strlen(genes));
-            printf("Gene: %s, Posição: %d\n",genes,posicao);
+            soma += algoritmoKMP(cadeia,tamanhoCadeia,genes,strlen(genes));
+            // printf("Gene: %s, Posição: %d\n",genes,posicao);
         }
-
+        doencas[i].porcentagem = (int)round(((float)soma/quantidadeGenes)*100);
+        printf("Porcentagem: %d\n",doencas[i].porcentagem);
 
     }
 

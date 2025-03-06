@@ -9,6 +9,30 @@ typedef struct {
 } Doenca;
 
 
+void countingSort(Doenca *doencas, int quantidade) {
+    const int maximoPercentual = 100;
+    Doenca saida[quantidade];  
+    int contador[maximoPercentual+ 1];  
+
+    memset(contador, 0, sizeof(contador));
+
+    for (int i = 0;i < quantidade; i++) {
+        contador[doencas[i].porcentagem]++;
+    }
+
+    for (int i = maximoPercentual- 1; i >= 0; i--) {
+        contador[i] += contador[i + 1];
+    }
+
+    for (int i = quantidade-1; i >= 0;i--) {
+        saida[contador[doencas[i].porcentagem]- 1] = doencas[i];
+        contador[doencas[i].porcentagem]--;
+    }
+
+    memcpy(doencas,saida, quantidade*sizeof(Doenca));
+}
+
+
 // Função para calcular a tabela de prefixos (tabela de falhas)
 void calcularTabelaPrefixos(const char *padrao, int tamanhoPadrao, int *tabela) {
     int comprimento = 0;  // Comprimento do prefixo mais longo que também é sufixo
@@ -88,10 +112,15 @@ int main(int argc, char *argv[]) {
             // printf("Gene: %s, Posição: %d\n",genes,posicao);
         }
         doencas[i].porcentagem = (int)round(((float)soma/quantidadeGenes)*100);
-        printf("Porcentagem: %d\n",doencas[i].porcentagem);
+        // printf("Porcentagem: %d\n",doencas[i].porcentagem);
 
     }
 
+    countingSort(doencas,quantidadeDoencas);
+    for(int i = 0; i < quantidadeDoencas; i++){
+            fprintf(saida,"%s %d\n",doencas[i].nome,doencas[i].porcentagem);
+        
+    }
 
 
 

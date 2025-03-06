@@ -30,6 +30,7 @@ int algoritmoKMP(const char *texto, int tamanhoTexto, const char *padrao, int ta
     calcularTabelaPrefixos(padrao, tamanhoPadrao, tabela);
 
     int j = 0;  // Índice para o padrão
+    float limite = tamanhoPadrao*0.9;
 
     for (int i = 0; i < tamanhoTexto; i++) {
         while (j > 0 && texto[i] != padrao[j]) {
@@ -38,13 +39,13 @@ int algoritmoKMP(const char *texto, int tamanhoTexto, const char *padrao, int ta
         if (texto[i] == padrao[j]) {
             j++;
         }
-        if (j == tamanhoPadrao) {
+        if (j>=limite) {
             // Padrão encontrado
-            return i - j + 1;  // Retorna a posição onde o padrão começa no texto
+            return 1;  // Retorna a posição onde o padrão começa no texto
         }
     }
 
-    return -1;  // Padrão não encontrado
+    return 0;  // Padrão não encontrado
 }
 
 
